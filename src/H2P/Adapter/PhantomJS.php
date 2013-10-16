@@ -40,14 +40,14 @@ class PhantomJS extends AdapterAbstract
 {
     /**
      * Library bin path
-     * 
+     *
      * @var string
      */
     protected $binPath = '../../../bin';
-    
+
     /**
      * Paths to search PhantomJS binary file
-     * 
+     *
      * @var array
      */
     protected $searchPaths = array();
@@ -58,14 +58,14 @@ class PhantomJS extends AdapterAbstract
      * @param array|string $paths Path for PhantomJS binary file
      */
     public function __construct($paths = array())
-    {        
+    {
         $this->binPath = realpath(__DIR__ . '/' . $this->binPath);
         $this->detectSearchPaths($paths);
     }
-    
+
     /**
      * Set and detect paths for PhantomJS binary file
-     * 
+     *
      * @param array $paths
      * @return PhantomJS
      */
@@ -94,7 +94,7 @@ class PhantomJS extends AdapterAbstract
         }
 
         $this->searchPaths = $paths;
-        
+
         return $this;
     }
 
@@ -121,7 +121,7 @@ class PhantomJS extends AdapterAbstract
 
     /**
      * Returns the PhantomJS binary path based on defined Search Paths
-     * 
+     *
      * @return string
      * @throws Exception
      */
@@ -136,10 +136,10 @@ class PhantomJS extends AdapterAbstract
 
         throw new Exception('PhantomJS binary not found! Please, download it at <http://phantomjs.org/download.html>');
     }
-    
+
     /**
      * Returns H2P Converter Script Path
-     * 
+     *
      * @return string
      */
     protected function getConverterPath()
@@ -169,10 +169,11 @@ class PhantomJS extends AdapterAbstract
      * @param string $format
      * @param string $orientation
      * @param string $border
+     * @param string $zoom
      * @return bool
      * @throws \H2P\Exception
      */
-    public function convert($uri, $destination, $format, $orientation, $border)
+    public function convert($uri, $destination, $format, $orientation, $border, $zoom)
     {
         $bin = $this->getBinPath();
         $args[] = escapeshellarg($uri);
@@ -180,6 +181,7 @@ class PhantomJS extends AdapterAbstract
         $args[] = escapeshellarg($format);
         $args[] = escapeshellarg($orientation);
         $args[] = escapeshellarg($border);
+        $args[] = escapeshellarg($zoom);
 
         $result = json_decode(trim(shell_exec($bin . ' ' . implode(' ', $args))));
 

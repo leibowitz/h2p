@@ -53,6 +53,7 @@ try {
     var format = args[3] || 'A4';
     var orientation = args[4] || 'portrait';
     var border = args[5] || '1cm';
+    var zoom = args[6] || '1';
 
     page.customHeaders = {
         'User-Agent': 'PhantomJS'
@@ -65,6 +66,7 @@ try {
             }
 
             page.paperSize = { format: format, orientation: orientation, border: border };
+            page.zoomFactor = zoom;
             page.render(destination, { format: 'pdf' });
 
             console.log(JSON.stringify({

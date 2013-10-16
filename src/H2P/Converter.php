@@ -68,6 +68,11 @@ class Converter
     protected $border;
 
     /**
+     * @var string
+     */
+    protected $zoom;
+
+    /**
      * Constants
      */
     const ORIENTATION_PORTRAIT = 'Portrait';
@@ -116,13 +121,15 @@ class Converter
      * @param string $format
      * @param string $orientation
      * @param string $border 1cm, 3in
+     * @param string $zoom 1
      */
-    public function __construct(AdapterAbstract $adapter, $uri, $destination, $format = null, $orientation = null, $border = null)
+    public function __construct(AdapterAbstract $adapter, $uri, $destination, $format = null, $orientation = null, $border = null, $zoom = null)
     {
         // Set defaults
         $format or $format = static::FORMAT_A4;
         $orientation or $orientation = static::ORIENTATION_PORTRAIT;
         $border or $border = '1cm';
+        $zoom or $zoom = '1';
 
         $this->adapter = $adapter;
         $this->uri = $uri;
@@ -130,6 +137,7 @@ class Converter
         $this->format = (string) $format;
         $this->orientation = (string) $orientation;
         $this->border = (string) $border;
+        $this->zoom = (string) $zoom;
     }
 
     /**
@@ -141,11 +149,12 @@ class Converter
      * @param string $format
      * @param string $orientation
      * @param string $border 1cm, 3in
+     * @param string $zoom 1
      * @return \H2P\Converter
      */
-    public static function create(AdapterAbstract $adapter, $uri, $destination, $format = null, $orientation = null, $border = null)
+    public static function create(AdapterAbstract $adapter, $uri, $destination, $format = null, $orientation = null, $border = null, $zoom = null)
     {
-        return new static($adapter, $uri, $destination, $format, $orientation, $border);
+        return new static($adapter, $uri, $destination, $format, $orientation, $border, $zoom);
     }
 
     /**
@@ -165,6 +174,6 @@ class Converter
             $destination = $this->destination->getFileName();
         }
 
-        return $this->adapter->convert($uri, $destination, $this->format, $this->orientation, $this->border);
+        return $this->adapter->convert($uri, $destination, $this->format, $this->orientation, $this->border, $this->zoom);
     }
 }
